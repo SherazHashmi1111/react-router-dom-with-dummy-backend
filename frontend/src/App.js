@@ -22,53 +22,52 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Root from "./pages/Root";
 import Home from "./pages/Home";
-import Error from './pages/Error'
+import Error from "./pages/Error";
 import EventsRoot from "./pages/EventsRoot";
-import Events, {loader as eventsLoader} from "./pages/Events";
-import EventDetail from './pages/EventDetail'
-import EditEvent from './pages/EditEvent'
-import NewEvent from './pages/NewEvent'
+import Events, { loader as eventsLoader } from "./pages/Events";
+import EventDetail, { loader as detailLoader } from "./pages/EventDetail";
+import EditEvent from "./pages/EditEvent";
+import NewEvent from "./pages/NewEvent";
 
-const router = createBrowserRouter(
-  [
-    {
-      path: '/',
-      element: <Root/>,
-      errorElement: <Error/>,
-      children: [
-        {
-          index: true,
-          element: <Home/>
-        },
-        {
-          path: 'events',
-          element: <EventsRoot/>,
-          children: [
-            {
-              index: true,
-              element: <Events/>,
-              loader: eventsLoader
-            },
-            {
-              path: ':eventId',
-              element: <EventDetail/>
-            },
-            {
-              path: ':eventId/edit',
-              element: <EditEvent/>
-            },
-            {
-              path: 'new',
-              element: <NewEvent/>
-            }
-          ]
-        }
-      ]
-    }
-  ]
-)
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Root />,
+    errorElement: <Error />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "events",
+        element: <EventsRoot />,
+        children: [
+          {
+            index: true,
+            element: <Events />,
+            loader: eventsLoader,
+          },
+          {
+            path: ":eventId",
+            element: <EventDetail />,
+            loader: detailLoader,
+          },
+          {
+            path: ":eventId/edit",
+            element: <EditEvent />,
+          },
+          {
+            path: "new",
+            element: <NewEvent />,
+          },
+        ],
+      },
+    ],
+  },
+]);
 function App() {
-  return <RouterProvider router={router}/>
+  return <RouterProvider router={router} />;
 }
 
 export default App;
