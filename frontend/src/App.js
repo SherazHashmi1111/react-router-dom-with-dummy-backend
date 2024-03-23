@@ -6,7 +6,8 @@ import EventsRoot from "./pages/EventsRoot";
 import Events, { loader as eventsLoader } from "./pages/Events";
 import EventDetail, { loader as detailLoader } from "./pages/EventDetail";
 import EditEvent from "./pages/EditEvent";
-import NewEvent, { action as newEventAction } from "./pages/NewEvent";
+import NewEvent from "./pages/NewEvent";
+import { action as manipulateEventAction } from "./components/EventForm";
 
 const router = createBrowserRouter([
   {
@@ -39,13 +40,14 @@ const router = createBrowserRouter([
               {
                 path: "edit",
                 element: <EditEvent />,
+                action: manipulateEventAction,
               },
             ]
           },
           {
             path: "new",
             element: <NewEvent />,
-            action: newEventAction,
+            action: manipulateEventAction,
           },
         ],
       },

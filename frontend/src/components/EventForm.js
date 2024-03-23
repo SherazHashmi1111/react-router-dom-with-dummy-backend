@@ -1,4 +1,4 @@
-import { Form, useNavigate } from 'react-router-dom';
+import { Form, redirect, useNavigate } from 'react-router-dom';
 
 import classes from './EventForm.module.css';
 
@@ -9,7 +9,7 @@ function EventForm({ method, event }) {
   }
 
   return (
-    <Form method='post' className={classes.form}>
+    <Form method={method} className={classes.form}>
       <p>
         <label htmlFor="title">Title</label>
         <input id="title" type="text" name="title" required defaultValue={event ? event.title : undefined}/>
@@ -37,3 +37,30 @@ function EventForm({ method, event }) {
 }
 
 export default EventForm;
+
+export async function action({ request, params }) {
+  const data = await request.formData();
+  const eventData = {
+    title: data.get("title"),
+    date: data.get("date"),
+    image: data.get("image"),
+    description: data.get("description"),
+  };
+  let url =  'http://localhost:8080/events/'
+  if(request.method === 'PATCH'){
+    const id = params.eventId;
+    url = 'http://localhost:8080/events/' + id
+  }
+  const response = await fetch(url, {
+    method: request.method,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(eventData),
+  });
+  if(!response.ok){
+    return <p>Error adding new event</p>
+  }
+  return redirect("/events");
+}
+
